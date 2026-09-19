@@ -1,18 +1,20 @@
 # HamroRide Cycle 1 — Client install / क्लाइन्ट इन्स्टल
 
-Closed-beta **sideload**. These are **not** Play Store production builds. Bike taxi in **Kathmandu Valley** only. Cash. No tempo / cab / parcel / iOS / consumer web.
+Closed-beta **sideload**. These are **not** Play Store production builds. Bike taxi in **Kathmandu Valley** or **Delhi** (GPS / pin). Cash. No tempo / cab / parcel / iOS / consumer web.
 
-**Download (HTTPS):** [GitHub Release v1.0.0](https://github.com/Manojkr6637/hamroride-cycle1-apks/releases/latest)
+**Download (HTTPS):** [GitHub Release v1.0.1](https://github.com/Manojkr6637/hamroride-cycle1-apks/releases/latest) (Delhi +91 + Valley)
 
 | App | Android package | APK |
 | --- | --- | --- |
-| Customer / यात्रु | `np.hamroride.customer` | [hamroride-customer-1.0.0.apk](https://github.com/Manojkr6637/hamroride-cycle1-apks/releases/download/v1.0.0/hamroride-customer-1.0.0.apk) |
-| Captain / क्याप्टेन | `np.hamroride.captain` | [hamroride-captain-1.0.0.apk](https://github.com/Manojkr6637/hamroride-cycle1-apks/releases/download/v1.0.0/hamroride-captain-1.0.0.apk) |
+| Customer / यात्रु | `np.hamroride.customer` | [hamroride-customer-1.0.1.apk](https://github.com/Manojkr6637/hamroride-cycle1-apks/releases/download/v1.0.1/hamroride-customer-1.0.1.apk) |
+| Captain / क्याप्टेन | `np.hamroride.captain` | [hamroride-captain-1.0.1.apk](https://github.com/Manojkr6637/hamroride-cycle1-apks/releases/download/v1.0.1/hamroride-captain-1.0.1.apk) |
 
 API (HTTPS): `https://hamroride-api-production.up.railway.app`  
 AAB files are on the same Release (Play **Internal** later — not public production).
 
 Needs **Android 7.0+** (API 24). Typical 2 GB Valley phones are OK.
+
+**APK note:** **v1.0.1** is the Delhi / +91 build (`versionCode` 2). If **v1.0.0** is already installed, open the new APK — Android should upgrade it (same signing key). Uninstall first only if Install says signature mismatch (old debug APK).
 
 ---
 
@@ -34,28 +36,32 @@ The Play Store is not used. Android will block the APK until you allow this brow
 4. Go back and tap **Install**.
 5. Xiaomi / Oppo / Vivo: also check **Security** → **Install unknown apps** (or **USB installation** / **Install via USB** off is fine; this is a file install).
 
-Uninstall any old debug build of the same package first if Install says *conflict* / *signature mismatch*.
+Uninstall any old **debug** build of the same package first if Install says *conflict* / *signature mismatch*. Upgrading v1.0.0 → v1.0.1 (this signed key) should Install as an update.
 
 ### 3. Permissions
 
 **Customer (`HamroRide`)**
 
 - **Internet** — quotes, book, OTP.
-- The map library may also ask for **Location**. Cycle 1 does not need GPS (you drag pins). Deny is OK; Allow is OK.
+- **Location** — allow for **real GPS pickup**. If you are in **Kathmandu Valley**, the map uses Nepal. If you are in **Delhi**, it uses India (INR). Deny is still OK: drag pins instead. Outside both cities, GPS is rejected; drag a pin inside Valley or Delhi.
 
 **Captain (`HamroRide Captain`)**
 
-- **Location** (precise) while Online and during a trip.
-- **Location — allow all the time** / background: the app declares it for the **active-trip** ping only. If the phone asks, allow it so the passenger map can move. If you deny background, you can still demo with the **stand chips** (Thamel / New Road / Baneshwor).
+- **Location** (precise) while Online and during a trip — **real GPS** is used when it is inside Valley or Delhi.
+- **Location — allow all the time** / background: declared for the **active-trip** ping only.
+- If you deny GPS, use **stand chips** (Thamel / New Road / Baneshwor, or Connaught Place / India Gate / Karol Bagh).
 - **Internet**.
 
 ### 4. Test numbers (do not use a random real SIM yet)
 
-| Role | Type in the app | Full MSISDN | Notes |
-| --- | --- | --- | --- |
-| Passenger | `9800000001` | `9779800000001` | Book Bike |
-| Captain (Thamel) | `9800000002` | `9779800000002` | KYC **ACTIVE**, plate `BA 1 PA 1234` |
-| Captain (New Road) | `9800000003` | `9779800000003` | KYC **ACTIVE**, plate `BA 2 PA 5678` |
+| Role | Country in app | Type in the app | Full MSISDN | Notes |
+| --- | --- | --- | --- | --- |
+| Passenger (Nepal) | NP +977 | `9800000001` | `9779800000001` | Book Bike |
+| Captain (Thamel) | NP +977 | `9800000002` | `9779800000002` | KYC **ACTIVE**, plate `BA 1 PA 1234` |
+| Captain (New Road) | NP +977 | `9800000003` | `9779800000003` | KYC **ACTIVE**, plate `BA 2 PA 5678` |
+| Passenger (India) | IN +91 | `9876500001` | `919876500001` | Delhi demo |
+| Captain (Connaught Place) | IN +91 | `9876500002` | `919876500002` | KYC **ACTIVE**, plate `DL 1 S 1234` |
+| Captain (India Gate) | IN +91 | `9876500003` | `919876500003` | KYC **ACTIVE**, plate `DL 2 S 5678` |
 
 A passenger number stays passenger. Use the captain numbers in the **Captain** app.
 
@@ -67,7 +73,7 @@ Cycle 1 uses **fake SMS**. The app **never** shows the 6-digit code.
 2. Read the code **one** of these ways (staging API):
    - Browser on the phone or PC:  
      `https://hamroride-api-production.up.railway.app/v1/dev/otp?msisdn=9779800000001`  
-     (change the number: `…002` captain Thamel, `…003` New Road). Copy the `otp` field.
+     (change the number: Nepal captains `…002` / `…003`; India `msisdn=919876500001` passenger, `…0002` CP captain). Copy the `otp` field.
    - Operator PC: `railway logs --service hamroride-api --lines 50` and look for `[fake-sms] msisdn=... otp=......`
 3. Type the **6 digits**. Login OTP is **not** the ride PIN (ride PIN is **4 digits** after a captain accepts).
 
@@ -77,8 +83,8 @@ If inspect returns **404**, the host was flipped to production env — ask the o
 
 Two packages: both can sit on **one** phone, but two phones is the real demo.
 
-1. **Captain phone:** install Captain APK → OTP `9800000002` → KYC should already be ACTIVE → stand **Thamel** → **Online**. Heartbeat dies in **20 seconds** if you leave Online off.
-2. **Customer phone:** install Customer APK → OTP `9800000001` → map **Thamel → New Road** → fare about **NPR 51.45** (bike only) → **Book Bike**.
+1. **Captain phone:** install Captain APK → OTP `9800000002` (or India `9876500002` with **IN +91**). Allow **Location**. Go **Online** — GPS is used if you are in Valley or Delhi; otherwise tap a stand chip. Heartbeat dies in **20 seconds** if you leave Online off.
+2. **Customer phone:** install Customer APK → OTP `9800000001` (or India `9876500001` with **IN +91**). Tap **My location** (or allow GPS on open). In Kathmandu the map stays Valley (**NPR**). In Delhi it switches to Connaught Place / India Gate (**INR**). You can still drag pins. **Book Bike**.
 3. Customer shows **Searching** (no fake ETA). Captain offer card (~1 s). **Accept**.
 4. Customer: **4-digit ride PIN**, helmet waiting, Share. Captain: type PIN, tick **two helmets**, **Start trip**.
 5. Optional: either app **SOS**. Desk case is queued (`policeAutoDial` is off). Ops inbox is internal, not a public website.
@@ -91,7 +97,8 @@ Optional captain **Daily pass NPR 25** (cash) → 0% take that Nepal calendar da
 
 ### 7. Limits (Cycle 1)
 
-- **Valley bbox** only. Bike **`BIKE_STD`** only. **Cash** first (wallet stub, no eSewa live).
+- **Valley or Delhi bbox** only. Bike **`BIKE_STD`** only. **Cash** first (wallet stub, no eSewa / UPI live).
+- Real GPS sets the city: Kathmandu Valley → NPR; Delhi → INR. Other cities (Mumbai, Pokhara, …) are rejected.
 - Not Play production. Not iOS. Not consumer web Book Ride. No ads. No tempo/cab/parcel.
 - OTP is fake / inspect URL — not a real SMS aggregator.
 - API sessions live **in memory**. A Railway restart drops passenger logins; seed captains are re-activated on boot. Request a **new OTP**. Go **Online** again before Book.
