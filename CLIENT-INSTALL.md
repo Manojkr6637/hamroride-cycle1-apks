@@ -41,7 +41,7 @@ Uninstall any old debug build of the same package first if Install says *conflic
 **Customer (`HamroRide`)**
 
 - **Internet** — quotes, book, OTP.
-- Location GPS is **not** required for Cycle 1 (you drag pins on the map).
+- The map library may also ask for **Location**. Cycle 1 does not need GPS (you drag pins). Deny is OK; Allow is OK.
 
 **Captain (`HamroRide Captain`)**
 
@@ -122,7 +122,7 @@ Play Store होइन। पहिलो पटक इन्स्टल ग�
 
 ### ३. अनुमति
 
-**यात्रु एप:** इन्टरनेट। Cycle 1 मा GPS अनिवार्य छैन (पिन तान्नुहोस्)।
+**यात्रु एप:** इन्टरनेट। नक्सा लाइब्रेरीले लोकेसन पनि सोध्न सक्छ — Cycle 1 मा GPS अनिवार्य छैन (पिन तान्नुहोस्); Deny पनि हुन्छ।
 
 **क्याप्टेन एप:** लोकेसन (सटीक)। ट्रिप चलिरहेका बेला ब्याकग्राउन्ड लोकेसन सोधे अनुमति दिनुहोस्। नदिए पनि स्ट्यान्ड चिप (ठमेल / नयाँ सडक) ले डेमो चल्छ।
 
